@@ -5,9 +5,14 @@
  * @return {Boolean}
  */
 exports.node = function(value) {
-    return value !== undefined
-        && value instanceof HTMLElement
-        && value.nodeType === 1;
+    if (value === undefined) return false;
+
+    var isDocNode = value instanceof HTMLElement;
+    if (!isDocNode && value.ownerDocument){
+        isDocNode = value.ownerDocument.isConnected;
+    }
+
+    return isDocNode && value.nodeType === Node.ELEMENT_NODE;
 };
 
 /**
